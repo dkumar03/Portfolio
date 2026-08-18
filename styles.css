@@ -3242,3 +3242,824 @@ footer a:hover::after {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ============================================================
+   GLOBAL MOBILE RESPONSIVE SYSTEM
+   Works across small phones, large phones & tablets
+   320px → 767px
+============================================================ */
+
+@media (max-width: 767px) {
+
+  /* ==========================================================
+     GLOBAL
+  ========================================================== */
+
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  .section-pad {
+    padding-left: clamp(1rem, 5vw, 1.5rem);
+    padding-right: clamp(1rem, 5vw, 1.5rem);
+  }
+
+
+  /* ==========================================================
+     NAVIGATION
+  ========================================================== */
+
+  .nav {
+    top: .75rem;
+
+    width: calc(100% - 1.5rem);
+    max-width: none;
+
+    height: 48px;
+
+    padding:
+      0 clamp(.7rem, 3vw, 1rem);
+
+    border-radius: 999px;
+  }
+
+  .logo {
+    flex-shrink: 0;
+    font-size: .95rem;
+  }
+
+  /*
+     Hide desktop navigation links.
+     Keeping all links inside the pill on a phone
+     makes the navigation cramped.
+  */
+
+  .nav nav {
+    display: none;
+  }
+
+  .nav-cta {
+    display: inline-flex;
+
+    flex-shrink: 0;
+
+    padding:
+      .4em .85em;
+
+    font-size: .7rem;
+
+    white-space: nowrap;
+  }
+
+
+  /* ==========================================================
+     HERO
+  ========================================================== */
+
+  .hero {
+    width: 100%;
+    min-height: 100svh;
+
+    padding:
+      clamp(6.5rem, 16vw, 8rem)
+      clamp(1rem, 5vw, 1.5rem)
+      clamp(3rem, 8vw, 5rem);
+
+    overflow: hidden;
+  }
+
+  .hero-layout {
+    width: 100%;
+    max-width: 100%;
+
+    gap:
+      clamp(.8rem, 3vw, 1.25rem);
+  }
+
+  .hero-greeting {
+    width: 100%;
+    max-width: 100%;
+
+    font-size:
+      clamp(1.5rem, 7vw, 2.25rem);
+
+    line-height: 1.15;
+
+    overflow-wrap: break-word;
+  }
+
+  .hero-subtitle {
+    font-size:
+      clamp(.85rem, 3.5vw, 1rem);
+  }
+
+
+  /* ==========================================================
+     HERO BACKGROUND MARQUEE
+  ========================================================== */
+
+  .hero-bg-marquee {
+    width: 250%;
+
+    top: 48%;
+
+    overflow: hidden;
+  }
+
+  .hero-bg-marquee-track {
+    gap:
+      clamp(1.5rem, 5vw, 3rem);
+  }
+
+  .hero-bg-marquee-track span {
+    font-size:
+      clamp(6rem, 28vw, 11rem);
+  }
+
+
+  /* ==========================================================
+     PORTRAIT
+  ========================================================== */
+
+  .hero-visual {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin:
+      .5rem 0;
+  }
+
+  .portrait-frame {
+    width:
+      clamp(190px, 58vw, 270px);
+
+    max-width: 270px;
+
+    transform:
+      perspective(800px)
+      rotateY(7deg);
+  }
+
+  .portrait-img {
+    width: 100%;
+
+    border-radius:
+      clamp(22px, 6vw, 32px);
+  }
+
+  .portrait-badge {
+    max-width: 180px;
+
+    padding:
+      .45em .75em;
+
+    font-size:
+      clamp(.55rem, 2.3vw, .7rem);
+  }
+
+  .badge-tl {
+    left:
+      clamp(-.5rem, -2vw, -.25rem);
+  }
+
+
+  /* ==========================================================
+     SOCIAL PROOF
+  ========================================================== */
+
+  .hero-proof {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: .55rem;
+  }
+
+  .proof-avatar {
+    width:
+      clamp(28px, 8vw, 35px);
+
+    height:
+      clamp(28px, 8vw, 35px);
+  }
+
+  .proof-text {
+    font-size:
+      clamp(.7rem, 3vw, .85rem);
+  }
+
+
+  /* ==========================================================
+     HERO CTA
+  ========================================================== */
+
+  .btn-hero-cta {
+    width: min(100%, 330px);
+
+    min-width: 0;
+
+    height:
+      clamp(58px, 16vw, 72px);
+
+    padding:
+      0 clamp(1rem, 5vw, 2rem);
+
+    border-width:
+      clamp(4px, 1.5vw, 6px);
+
+    font-size:
+      clamp(.9rem, 4vw, 1.2rem);
+  }
+
+
+  /* ==========================================================
+     MARQUEE
+  ========================================================== */
+
+  .marquee-section {
+    width: 100%;
+    overflow: hidden;
+  }
+
+
+  /* ==========================================================
+     ABOUT
+  ========================================================== */
+
+  .intro {
+    padding-top:
+      clamp(4rem, 12vw, 6rem);
+
+    padding-bottom:
+      clamp(4rem, 12vw, 6rem);
+  }
+
+  .intro-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap:
+      clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  .intro-grid h2 {
+    width: 100%;
+    max-width: 100%;
+
+    font-size:
+      clamp(2rem, 10vw, 3.25rem);
+
+    line-height: 1.05;
+  }
+
+  .intro-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .about-paragraph {
+    width: 100%;
+
+    font-size:
+      clamp(.82rem, 3.5vw, .95rem);
+
+    line-height: 1.7;
+  }
+
+
+  /* ==========================================================
+     STACK
+  ========================================================== */
+
+  .stack-section {
+    width: 100%;
+
+    padding-top:
+      clamp(3.5rem, 10vw, 5rem);
+
+    padding-bottom:
+      clamp(3.5rem, 10vw, 5rem);
+  }
+
+  .stack-wrapper {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 0;
+  }
+
+  .stack-grid {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      clamp(.6rem, 2.5vw, 1rem);
+  }
+
+  .stack-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .stack-card-inner {
+    width: 100%;
+
+    min-height:
+      clamp(100px, 27vw, 130px);
+
+    padding:
+      clamp(.8rem, 4vw, 1.2rem)
+      .5rem;
+
+    border-radius:
+      clamp(14px, 4vw, 20px);
+  }
+
+  .stack-icon {
+    width:
+      clamp(32px, 10vw, 44px);
+
+    height:
+      clamp(32px, 10vw, 44px);
+  }
+
+  .stack-card h3 {
+    max-width: 100%;
+
+    font-size:
+      clamp(.65rem, 2.8vw, .8rem);
+
+    text-align: center;
+
+    line-height: 1.2;
+
+    overflow-wrap: break-word;
+  }
+
+
+  /* ==========================================================
+     WORK SECTION
+  ========================================================== */
+
+  .work.section-pad {
+    width: 100%;
+
+    padding-left:
+      clamp(1rem, 5vw, 1.5rem);
+
+    padding-right:
+      clamp(1rem, 5vw, 1.5rem);
+
+    padding-bottom:
+      clamp(5rem, 14vw, 8rem);
+  }
+
+
+  /* IMPORTANT:
+     Desktop currently uses width: 150%.
+     Reset it on mobile.
+  */
+
+  .work-header {
+    width: 100%;
+    max-width: 100%;
+
+    margin:
+      0 auto
+      clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .work-category {
+    width: 100%;
+    max-width: 1100px;
+
+    margin:
+      0 auto
+      clamp(4rem, 12vw, 7rem);
+  }
+
+
+  /* ==========================================================
+     WORK CATEGORY HEADER
+  ========================================================== */
+
+  .work-category-head {
+    width: 100%;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap:
+      .8rem;
+
+    margin-bottom:
+      clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .work-category-head h2 {
+    font-size:
+      clamp(2rem, 10vw, 3rem);
+
+    line-height: 1;
+  }
+
+  .work-category-head p {
+    max-width:
+      min(100%, 320px);
+
+    margin-top: .45rem;
+
+    font-size:
+      clamp(.7rem, 3vw, .85rem);
+
+    line-height: 1.45;
+  }
+
+  .work-view-all {
+    align-self: flex-start;
+
+    padding:
+      .55rem .8rem;
+
+    font-size:
+      clamp(.65rem, 2.8vw, .75rem);
+  }
+
+
+  /* ==========================================================
+     REELS
+  ========================================================== */
+
+  .reels-grid {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap:
+      clamp(.55rem, 2.5vw, .85rem);
+  }
+
+  .reel-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .reel-media {
+    width: 100%;
+
+    aspect-ratio: 9 / 14;
+
+    border-radius:
+      clamp(12px, 3.5vw, 18px);
+
+    overflow: hidden;
+  }
+
+  .reel-media video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
+  .reel-info {
+    width: 100%;
+
+    padding:
+      .55rem .05rem .25rem;
+  }
+
+  .reel-info h3 {
+    font-size:
+      clamp(.68rem, 3vw, .85rem);
+
+    line-height: 1.25;
+  }
+
+  .reel-info p {
+    font-size:
+      clamp(.52rem, 2.3vw, .65rem);
+
+    line-height: 1.4;
+
+    margin-top: .2rem;
+  }
+
+  .reel-tag {
+    font-size:
+      clamp(.4rem, 1.8vw, .5rem);
+
+    padding:
+      .12rem .3rem;
+  }
+
+  .reel-play {
+    width:
+      clamp(38px, 12vw, 48px);
+
+    height:
+      clamp(38px, 12vw, 48px);
+
+    font-size:
+      clamp(.65rem, 2.8vw, .85rem);
+  }
+
+
+  /* ==========================================================
+     LONG FORM
+  ========================================================== */
+
+  .long-form {
+    width: 100%;
+  }
+
+  .longform-grid {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    gap:
+      clamp(1.25rem, 5vw, 2rem);
+  }
+
+  .longform-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .longform-media {
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    border-radius:
+      clamp(12px, 3.5vw, 18px);
+
+    overflow: hidden;
+  }
+
+  .youtube-thumbnail,
+  .longform-media iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  .longform-info {
+    width: 100%;
+
+    padding:
+      .7rem .05rem;
+  }
+
+  .longform-info h3 {
+    font-size:
+      clamp(.8rem, 3.5vw, 1rem);
+  }
+
+  .longform-info p {
+    font-size:
+      clamp(.6rem, 2.7vw, .72rem);
+
+    line-height: 1.45;
+  }
+
+
+  /* ==========================================================
+     SERVICES
+  ========================================================== */
+
+  .services.section-pad {
+    width: 100%;
+
+    padding-left:
+      clamp(1rem, 5vw, 1.5rem);
+
+    padding-right:
+      clamp(1rem, 5vw, 1.5rem);
+
+    padding-top:
+      clamp(1rem, 4vw, 2rem);
+
+    padding-bottom:
+      clamp(4rem, 12vw, 6rem);
+  }
+
+  .services-wrap {
+    width: 100%;
+    max-width: 100%;
+
+    grid-template-columns: 1fr;
+  }
+
+  .service-item {
+    width: 100%;
+
+    grid-template-columns:
+      1.75rem minmax(0, 1fr);
+
+    gap:
+      .35rem .75rem;
+  }
+
+  .service-item h3 {
+    font-size:
+      clamp(.85rem, 3.8vw, 1rem);
+  }
+
+  .service-item p {
+    font-size:
+      clamp(.65rem, 2.8vw, .75rem);
+
+    line-height: 1.5;
+  }
+
+
+  /* ==========================================================
+     PROCESS
+  ========================================================== */
+
+  .process-row {
+    width: 100%;
+
+    grid-template-columns:
+      2rem minmax(0, 1fr);
+
+    gap:
+      .5rem .75rem;
+  }
+
+  .process-row h3 {
+    font-size:
+      clamp(.8rem, 3.5vw, .95rem);
+  }
+
+  .process-row p {
+    font-size:
+      clamp(.62rem, 2.7vw, .72rem);
+
+    line-height: 1.5;
+  }
+
+
+  /* ==========================================================
+     CONTACT
+  ========================================================== */
+
+  .contact {
+    width: 100%;
+
+    padding-left:
+      clamp(1rem, 5vw, 1.5rem);
+
+    padding-right:
+      clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .contact-inner {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .contact h2 {
+    max-width: 100%;
+
+    font-size:
+      clamp(2.1rem, 11vw, 3.5rem);
+
+    line-height: 1;
+  }
+
+
+  /* ==========================================================
+     FOOTER
+  ========================================================== */
+
+  footer {
+    width: 100%;
+
+    padding:
+      1.5rem
+      clamp(1rem, 5vw, 1.5rem);
+
+    gap: .75rem;
+
+    align-items: flex-start;
+  }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES
+   320px – 374px
+============================================================ */
+
+@media (max-width: 374px) {
+
+  .nav {
+    width: calc(100% - 1rem);
+    padding: 0 .65rem;
+  }
+
+  .nav-cta {
+    padding:
+      .35em .65em;
+
+    font-size: .64rem;
+  }
+
+  .hero {
+    padding-left: .9rem;
+    padding-right: .9rem;
+  }
+
+  .section-pad {
+    padding-left: .9rem;
+    padding-right: .9rem;
+  }
+
+  .stack-grid {
+    gap: .5rem;
+  }
+
+  .stack-card-inner {
+    min-height: 95px;
+  }
+
+  .reels-grid {
+    gap: .5rem;
+  }
+
+  .reel-info h3 {
+    font-size: .64rem;
+  }
+
+  .reel-info p {
+    font-size: .5rem;
+  }
+
+  .work-category-head h2 {
+    font-size: 1.9rem;
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+   768px – 1024px
+============================================================ */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  .section-pad {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .work-header {
+    width: 100%;
+    max-width: var(--max-w);
+  }
+
+  .work-category {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .reels-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .longform-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .stack-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+}
