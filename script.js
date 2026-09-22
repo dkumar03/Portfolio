@@ -16,65 +16,36 @@ let mouseY = 0;
 let glowX = 0;
 let glowY = 0;
 
-
 document.addEventListener("mousemove", e => {
-
   mouseX = e.clientX;
   mouseY = e.clientY;
-
 });
 
-
 function animateCursor() {
-
   glowX += (mouseX - glowX) * 0.08;
   glowY += (mouseY - glowY) * 0.08;
 
-
   if (cursorGlow) {
-
-    cursorGlow.style.left =
-      glowX + "px";
-
-    cursorGlow.style.top =
-      glowY + "px";
-
+    cursorGlow.style.left = glowX + "px";
+    cursorGlow.style.top = glowY + "px";
   }
 
-
-  requestAnimationFrame(
-    animateCursor
-  );
-
+  requestAnimationFrame(animateCursor);
 }
-
 
 animateCursor();
 
-
-document.addEventListener(
-  "mouseleave",
-  () => {
-
-    if (cursorGlow) {
-      cursorGlow.style.opacity = "0";
-    }
-
+document.addEventListener("mouseleave", () => {
+  if (cursorGlow) {
+    cursorGlow.style.opacity = "0";
   }
-);
+});
 
-
-document.addEventListener(
-  "mouseenter",
-  () => {
-
-    if (cursorGlow) {
-      cursorGlow.style.opacity = "1";
-    }
-
+document.addEventListener("mouseenter", () => {
+  if (cursorGlow) {
+    cursorGlow.style.opacity = "1";
   }
-);
-
+});
 
 
 /* ============================================================
@@ -84,40 +55,25 @@ document.addEventListener(
 const nav =
   document.querySelector(".nav");
 
-
 window.addEventListener(
   "scroll",
   () => {
-
-    const y =
-      window.scrollY;
-
+    const y = window.scrollY;
 
     if (!nav) {
       return;
     }
 
-
     if (y > 60) {
-
-      nav.classList.add(
-        "scrolled"
-      );
-
+      nav.classList.add("scrolled");
     } else {
-
-      nav.classList.remove(
-        "scrolled"
-      );
-
+      nav.classList.remove("scrolled");
     }
-
   },
   {
     passive: true
   }
 );
-
 
 
 /* ============================================================
@@ -142,7 +98,6 @@ let navScrollTimeout = null;
 ============================================================ */
 
 function moveNavPill(link) {
-
   if (!navContainer || !link) {
     return;
   }
@@ -153,38 +108,29 @@ function moveNavPill(link) {
   const navRect =
     navContainer.getBoundingClientRect();
 
-
   const x =
     linkRect.left -
     navRect.left;
 
-
   const width =
     linkRect.width;
-
 
   navContainer.style.setProperty(
     "--nav-pill-x",
     `${x}px`
   );
 
-
   navContainer.style.setProperty(
     "--nav-pill-width",
     `${width}px`
   );
 
-
   navLinks.forEach(item => {
-
     item.classList.remove("active");
-
   });
-
 
   link.classList.add("active");
 }
-
 
 
 /* ============================================================
@@ -192,7 +138,6 @@ function moveNavPill(link) {
 ============================================================ */
 
 function updateActiveNav() {
-
   if (
     !navContainer ||
     !navLinks.length
@@ -200,31 +145,19 @@ function updateActiveNav() {
     return;
   }
 
-
-  /*
-    While a navigation click is performing
-    smooth scrolling, don't let the scroll
-    listener fight with the clicked pill.
-  */
-
   if (isNavClickScrolling) {
     return;
   }
 
-
   const triggerPoint =
     window.innerHeight * 0.35;
-
 
   let activeLink =
     navLinks[0];
 
-
   navLinks.forEach(link => {
-
     const href =
       link.getAttribute("href");
-
 
     if (
       !href ||
@@ -233,124 +166,81 @@ function updateActiveNav() {
       return;
     }
 
-
     const section =
       document.querySelector(href);
-
 
     if (!section) {
       return;
     }
 
-
     const rect =
       section.getBoundingClientRect();
-
 
     if (
       rect.top <= triggerPoint
     ) {
-
-      activeLink =
-        link;
-
+      activeLink = link;
     }
-
   });
 
-
   moveNavPill(activeLink);
-
 }
 
 
-
 /* ============================================================
-   INITIAL POSITION
+   INITIAL NAV POSITION
 ============================================================ */
 
 function initializeNavPill() {
-
   if (!navLinks.length) {
     return;
   }
 
-
   updateActiveNav();
-
 }
-
 
 if (
   document.readyState === "loading"
 ) {
-
   document.addEventListener(
     "DOMContentLoaded",
     initializeNavPill
   );
-
 } else {
-
   initializeNavPill();
-
 }
-
 
 window.addEventListener(
   "load",
   () => {
-
     updateActiveNav();
-
   }
 );
 
 
-
 /* ============================================================
-   SCROLL
+   NAV SCROLL
 ============================================================ */
 
-let navScrollTicking =
-  false;
-
+let navScrollTicking = false;
 
 window.addEventListener(
   "scroll",
   () => {
-
-    /*
-      If the user clicked a nav item,
-      don't recalculate the pill position
-      during the smooth scroll.
-    */
-
     if (isNavClickScrolling) {
       return;
     }
-
 
     if (navScrollTicking) {
       return;
     }
 
+    navScrollTicking = true;
 
-    navScrollTicking =
-      true;
-
-
-    requestAnimationFrame(
-      () => {
-
-        updateActiveNav();
-
-        navScrollTicking =
-          false;
-
-      }
-    );
-
+    requestAnimationFrame(() => {
+      updateActiveNav();
+      navScrollTicking = false;
+    });
   },
   {
     passive: true
@@ -358,52 +248,23 @@ window.addEventListener(
 );
 
 
-
 /* ============================================================
-   CLICK
+   NAV CLICK
 ============================================================ */
 
 navLinks.forEach(link => {
-
   link.addEventListener(
     "click",
     () => {
 
-      /*
-        Tell the scroll handler to stay
-        out of the way.
-      */
-
-      isNavClickScrolling =
-        true;
-
-      clickedNavLink =
-        link;
-
-
-      /*
-        Move the pill exactly once.
-      */
+      isNavClickScrolling = true;
+      clickedNavLink = link;
 
       moveNavPill(link);
-
-
-      /*
-        Clear any previous timeout.
-      */
 
       clearTimeout(
         navScrollTimeout
       );
-
-
-      /*
-        Wait until the browser has finished
-        the smooth scrolling motion.
-
-        900ms gives the pill and page enough
-        time to finish naturally.
-      */
 
       navScrollTimeout =
         setTimeout(
@@ -415,23 +276,14 @@ navLinks.forEach(link => {
             clickedNavLink =
               null;
 
-
-            /*
-              Recalculate once after
-              scrolling has finished.
-            */
-
             updateActiveNav();
 
           },
           900
         );
-
     }
   );
-
 });
-
 
 
 /* ============================================================
@@ -447,19 +299,14 @@ window.addEventListener(
         "a.active"
       );
 
-
     if (active) {
-
       moveNavPill(active);
-
     } else {
-
       updateActiveNav();
-
     }
-
   }
 );
+
 
 /* ============================================================
    SCROLL REVEAL
@@ -469,7 +316,6 @@ const revealEls =
   document.querySelectorAll(
     "[data-reveal]"
   );
-
 
 const revealObs =
   new IntersectionObserver(
@@ -481,11 +327,9 @@ const revealObs =
           return;
         }
 
-
         entry.target.classList.add(
           "revealed"
         );
-
 
         revealObs.unobserve(
           entry.target
@@ -502,13 +346,9 @@ const revealObs =
     }
   );
 
-
 revealEls.forEach(el => {
-
   revealObs.observe(el);
-
 });
-
 
 
 /* ============================================================
@@ -520,7 +360,6 @@ const magnetics =
     ".magnetic"
   );
 
-
 magnetics.forEach(el => {
 
   el.addEventListener(
@@ -530,45 +369,35 @@ magnetics.forEach(el => {
       const rect =
         el.getBoundingClientRect();
 
-
       const cx =
         rect.left +
         rect.width / 2;
-
 
       const cy =
         rect.top +
         rect.height / 2;
 
-
       const dx =
         (e.clientX - cx) *
         0.35;
-
 
       const dy =
         (e.clientY - cy) *
         0.35;
 
-
       el.style.transform =
         `translate(${dx}px, ${dy}px)`;
-
     }
   );
-
 
   el.addEventListener(
     "mouseleave",
     () => {
-
       el.style.transform = "";
-
     }
   );
 
 });
-
 
 
 /* ============================================================
@@ -588,7 +417,6 @@ document
         const href =
           a.getAttribute("href");
 
-
         if (
           !href ||
           href === "#"
@@ -596,150 +424,135 @@ document
           return;
         }
 
-
         const target =
           document.querySelector(
             href
           );
 
-
         if (!target) {
           return;
         }
 
-
         e.preventDefault();
-
 
         target.scrollIntoView({
           behavior: "smooth",
           block: "start"
         });
-
       }
     );
-
   });
 
+
 /* ============================================================
- WORK — VIEW ALL VIDEOS
+   WORK — VIEW ALL VIDEOS
 ============================================================ */
 
 const viewAllButtons =
-  document.querySelectorAll(".work-view-all");
-
+  document.querySelectorAll(
+    ".work-view-all"
+  );
 
 viewAllButtons.forEach(button => {
 
-  button.addEventListener("click", event => {
+  button.addEventListener(
+    "click",
+    event => {
 
-    event.preventDefault();
-    event.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
 
-
-    const category =
-      button.closest(".work-category");
-
-
-    if (!category) {
-      return;
-    }
-
-
-    const reelsGrid =
-      category.querySelector(".reels-grid");
-
-
-    const longformGrid =
-      category.querySelector(".longform-grid");
-
-
-    const grid =
-      reelsGrid || longformGrid;
-
-
-    if (!grid) {
-      return;
-    }
-
-
-    /* --------------------------------------------------------
-       SHOW ALL
-    -------------------------------------------------------- */
-
-    const isExpanded =
-      grid.classList.contains("show-all");
-
-
-    if (!isExpanded) {
-
-      grid.classList.add("show-all");
-
-
-      button.classList.add("is-expanded");
-
-
-      const text =
-        button.querySelector("span");
-
-
-      if (text) {
-        text.textContent = "↙";
-      }
-
-
-      button.childNodes[0].textContent =
-        "Show less ";
-
-
-    } else {
-
-      /* ------------------------------------------------------
-         SHOW LESS
-      ------------------------------------------------------ */
-
-      grid.classList.remove("show-all");
-
-
-      button.classList.remove("is-expanded");
-
-
-      const text =
-        button.querySelector("span");
-
-
-      if (text) {
-        text.textContent = "↗";
-      }
-
-
-      button.childNodes[0].textContent =
-        "View all ";
-
-
-      /* Smoothly return to the category heading */
-
-      const heading =
-        category.querySelector(
-          ".work-category-head"
+      const category =
+        button.closest(
+          ".work-category"
         );
 
-
-      if (heading) {
-
-        heading.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
+      if (!category) {
+        return;
       }
 
+      const reelsGrid =
+        category.querySelector(
+          ".reels-grid"
+        );
+
+      const longformGrid =
+        category.querySelector(
+          ".longform-grid"
+        );
+
+      const grid =
+        reelsGrid ||
+        longformGrid;
+
+      if (!grid) {
+        return;
+      }
+
+      const isExpanded =
+        grid.classList.contains(
+          "show-all"
+        );
+
+      if (!isExpanded) {
+
+        grid.classList.add(
+          "show-all"
+        );
+
+        button.classList.add(
+          "is-expanded"
+        );
+
+        const text =
+          button.querySelector(
+            "span"
+          );
+
+        if (text) {
+          text.textContent = "↙";
+        }
+
+        button.childNodes[0].textContent =
+          "Show less ";
+
+      } else {
+
+        grid.classList.remove(
+          "show-all"
+        );
+
+        button.classList.remove(
+          "is-expanded"
+        );
+
+        const text =
+          button.querySelector(
+            "span"
+          );
+
+        if (text) {
+          text.textContent = "↗";
+        }
+
+        button.childNodes[0].textContent =
+          "View all ";
+
+        const heading =
+          category.querySelector(
+            ".work-category-head"
+          );
+
+        if (heading) {
+          heading.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+      }
     }
-
-  });
-
+  );
 });
-
 
 
 /* ============================================================
@@ -755,24 +568,18 @@ document
     card.addEventListener(
       "mouseenter",
       () => {
-
         card.style.zIndex = "2";
-
       }
     );
-
 
     card.addEventListener(
       "mouseleave",
       () => {
-
         card.style.zIndex = "";
-
       }
     );
 
   });
-
 
 
 /* ============================================================
@@ -783,7 +590,6 @@ const staggerGroups =
   document.querySelectorAll(
     ".work-grid, .stack-grid, .hero-stats"
   );
-
 
 staggerGroups.forEach(group => {
 
@@ -802,7 +608,6 @@ staggerGroups.forEach(group => {
         ""
       );
 
-
       child.setAttribute(
         "data-reveal-delay",
         Math.min(
@@ -811,17 +616,12 @@ staggerGroups.forEach(group => {
         ).toString()
       );
 
-
       revealObs.observe(
         child
       );
-
     }
-
   });
-
 });
-
 
 
 /* ============================================================
@@ -835,49 +635,36 @@ staggerGroups.forEach(group => {
       ".hero-title"
     );
 
-
   if (!title) {
     return;
   }
-
 
   const em =
     title.querySelector(
       "em"
     );
 
-
   if (!em) {
     return;
   }
 
-
-  em.style.opacity =
-    "0";
-
+  em.style.opacity = "0";
 
   em.style.transform =
     "translateY(16px)";
-
 
   em.style.transition =
     "opacity .7s cubic-bezier(.22,.61,.36,1) .5s, " +
     "transform .7s cubic-bezier(.22,.61,.36,1) .5s";
 
-
   setTimeout(() => {
 
-    em.style.opacity =
-      "1";
-
-
-    em.style.transform =
-      "none";
+    em.style.opacity = "1";
+    em.style.transform = "none";
 
   }, 100);
 
 })();
-
 
 
 /* ============================================================
@@ -889,32 +676,24 @@ const marquee =
     ".marquee"
   );
 
-
 if (marquee) {
 
   marquee.addEventListener(
     "mouseenter",
     () => {
-
       marquee.style.animationPlayState =
         "paused";
-
     }
   );
-
 
   marquee.addEventListener(
     "mouseleave",
     () => {
-
       marquee.style.animationPlayState =
         "running";
-
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -925,7 +704,6 @@ const navCta =
   document.querySelector(
     ".nav-cta"
   );
-
 
 if (navCta) {
 
@@ -939,7 +717,6 @@ if (navCta) {
 }
 
 
-
 /* ============================================================
    WORK VIDEO SYSTEM
 ============================================================
@@ -951,14 +728,17 @@ if (navCta) {
    • Hovering one stops other previews
    • Hover out = previews resume
    • Click play = LARGE VIDEO
-   • Large video = AUDIO ON
-   • Close = return to portfolio
+   • LARGE VIDEO USES THE SAME VIDEO ELEMENT
+   • No second src assignment
+   • No .load()
+   • No currentTime reset
+   • Close = same video returns to card
    • ESC = close
    • Click outside = close
 
    LONG FORM
 
-   • YouTube thumbnail / iframe
+   • YouTube iframe
    • Click play = LARGE YOUTUBE PLAYER
    • Close = return to portfolio
 
@@ -974,18 +754,15 @@ const reelCards =
     ".reel-card"
   );
 
-
 const longformCards =
   document.querySelectorAll(
     ".longform-card"
   );
 
-
 const allWorkVideos =
   document.querySelectorAll(
     ".work video"
   );
-
 
 
 /* ============================================================
@@ -997,7 +774,6 @@ let videoLightbox =
     "#videoLightbox"
   );
 
-
 if (!videoLightbox) {
 
   videoLightbox =
@@ -1005,14 +781,11 @@ if (!videoLightbox) {
       "div"
     );
 
-
   videoLightbox.id =
     "videoLightbox";
 
-
   videoLightbox.className =
     "video-lightbox";
-
 
   videoLightbox.innerHTML = `
 
@@ -1046,15 +819,13 @@ if (!videoLightbox) {
       </iframe>
 
     </div>
-  `;
 
+  `;
 
   document.body.appendChild(
     videoLightbox
   );
-
 }
-
 
 
 /* ============================================================
@@ -1066,18 +837,15 @@ const lightboxContent =
     "#videoLightboxContent"
   );
 
-
 const lightboxVideo =
   document.querySelector(
     "#lightboxVideo"
   );
 
-
 const lightboxYoutube =
   document.querySelector(
     "#lightboxYoutube"
   );
-
 
 const lightboxClose =
   document.querySelector(
@@ -1085,14 +853,21 @@ const lightboxClose =
   );
 
 
-
 /* ============================================================
-   CURRENT VIDEO
+   ACTIVE LIGHTBOX VIDEO
 ============================================================ */
 
 let activeLightboxVideo =
   null;
 
+let activeVideoPlaceholder =
+  null;
+
+let activeVideoCard =
+  null;
+
+let activeVideoOriginalControls =
+  false;
 
 
 /* ============================================================
@@ -1111,11 +886,9 @@ function stopAllReelVideos(
           "video"
         );
 
-
       if (!video) {
         return;
       }
-
 
       if (
         video === except
@@ -1123,17 +896,13 @@ function stopAllReelVideos(
         return;
       }
 
-
       video.pause();
-
 
       video.muted =
         true;
 
-
       video.defaultMuted =
         true;
-
 
       if (
         !card.classList.contains(
@@ -1146,47 +915,36 @@ function stopAllReelVideos(
           video.currentTime =
             0;
 
-        }
-
-        catch (error) { }
+        } catch (error) { }
 
       }
-
 
       card.classList.remove(
         "is-playing"
       );
 
-
       card.classList.remove(
         "is-audio-playing"
       );
-
 
       const button =
         card.querySelector(
           ".reel-play"
         );
 
-
       const icon =
         button?.querySelector(
           "span"
         );
 
-
       if (icon) {
-
         icon.textContent =
           "▶";
-
       }
 
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -1201,44 +959,35 @@ function autoplayVideo(
     return;
   }
 
-
   video.muted =
     true;
-
 
   video.defaultMuted =
     true;
 
-
   video.autoplay =
     true;
 
-
   video.playsInline =
     true;
-
 
   video.setAttribute(
     "muted",
     ""
   );
 
-
   video.setAttribute(
     "autoplay",
     ""
   );
-
 
   video.setAttribute(
     "playsinline",
     ""
   );
 
-
   const promise =
     video.play();
-
 
   if (
     promise &&
@@ -1249,11 +998,8 @@ function autoplayVideo(
     promise.catch(
       () => { }
     );
-
   }
-
 }
-
 
 
 /* ============================================================
@@ -1270,30 +1016,23 @@ function startAllReelAutoplay() {
           "video"
         );
 
-
       if (!video) {
         return;
       }
-
 
       if (
         card.classList.contains(
           "is-audio-playing"
         )
       ) {
-
         return;
-
       }
-
 
       video.muted =
         true;
 
-
       video.defaultMuted =
         true;
-
 
       autoplayVideo(
         video
@@ -1301,9 +1040,7 @@ function startAllReelAutoplay() {
 
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -1318,42 +1055,55 @@ function resetCard(
     return;
   }
 
-
   card.classList.remove(
     "is-playing"
   );
 
-
   card.classList.remove(
     "is-audio-playing"
   );
-
 
   const button =
     card.querySelector(
       ".reel-play, .longform-play"
     );
 
-
   const icon =
     button?.querySelector(
       "span"
     );
 
-
   if (icon) {
-
     icon.textContent =
       "▶";
-
   }
-
 }
 
 
-
 /* ============================================================
-   OPEN REEL IN LARGE VIEW
+   OPEN REEL LIGHTBOX
+============================================================
+
+   IMPORTANT:
+
+   We DO NOT create a second video.
+
+   We DO NOT do:
+
+       lightboxVideo.src = video.src
+
+   We DO NOT do:
+
+       lightboxVideo.load()
+
+   We DO NOT change:
+
+       video.currentTime
+
+   Instead, the EXACT SAME VIDEO ELEMENT that
+   is already playing in the card is moved into
+   the lightbox.
+
 ============================================================ */
 
 function openReelLightbox(
@@ -1363,102 +1113,145 @@ function openReelLightbox(
 
   if (
     !video ||
-    !video.src
+    !video.src ||
+    !lightboxContent ||
+    !videoLightbox
   ) {
-
     return;
-
   }
 
+
+  /* ---------------------------------------------
+     Stop other preview videos.
+     The clicked video is excluded.
+  --------------------------------------------- */
 
   stopAllReelVideos(
     video
   );
 
 
+  /* ---------------------------------------------
+     Save active state
+  --------------------------------------------- */
+
   activeLightboxVideo =
     video;
 
+  activeVideoCard =
+    card;
 
-  if (lightboxYoutube) {
+  activeVideoOriginalControls =
+    video.controls;
 
-    lightboxYoutube.style.display =
+
+  /* ---------------------------------------------
+     Create placeholder
+
+     This lets us return the exact same video
+     to the same place after closing.
+  --------------------------------------------- */
+
+  activeVideoPlaceholder =
+    document.createElement(
+      "span"
+    );
+
+  activeVideoPlaceholder.className =
+    "video-lightbox-placeholder";
+
+  activeVideoPlaceholder.style.display =
+    "none";
+
+
+  if (video.parentNode) {
+
+    video.parentNode.insertBefore(
+      activeVideoPlaceholder,
+      video
+    );
+
+  }
+
+
+  /* ---------------------------------------------
+     The dedicated lightbox video is NOT used
+     for R2 reels.
+  --------------------------------------------- */
+
+  if (lightboxVideo) {
+
+    lightboxVideo.pause();
+
+    lightboxVideo.removeAttribute(
+      "src"
+    );
+
+    lightboxVideo.style.display =
       "none";
 
+  }
+
+
+  /* ---------------------------------------------
+     Hide YouTube
+  --------------------------------------------- */
+
+  if (lightboxYoutube) {
 
     lightboxYoutube.src =
       "";
 
-  }
-
-
-  if (lightboxVideo) {
-
-    lightboxVideo.style.display =
-      "block";
-
-
-    lightboxVideo.src =
-      video.currentSrc ||
-      video.src;
-
-
-    lightboxVideo.muted =
-      false;
-
-
-    lightboxVideo.defaultMuted =
-      false;
-
-
-    try {
-
-      lightboxVideo.currentTime =
-        video.currentTime;
-
-    }
-
-    catch (error) { }
+    lightboxYoutube.style.display =
+      "none";
 
   }
 
 
-  videoLightbox.classList.add(
-    "active"
+  /* ---------------------------------------------
+     MOVE THE EXISTING VIDEO
+
+     THIS IS THE MAIN FIX.
+
+     No src change.
+     No load.
+     No seeking.
+     No new request.
+  --------------------------------------------- */
+
+  lightboxContent.appendChild(
+    video
   );
 
 
-  document.body.style.overflow =
-    "hidden";
+  /* ---------------------------------------------
+     Enable fullscreen controls/audio
+  --------------------------------------------- */
+
+  video.controls =
+    true;
+
+  video.muted =
+    false;
+
+  video.defaultMuted =
+    false;
+
+  video.playsInline =
+    true;
+
+  video.setAttribute(
+    "playsinline",
+    ""
+  );
+
+  video.style.display =
+    "block";
 
 
-  if (lightboxVideo) {
-
-    lightboxVideo
-      .play()
-      .catch(
-        () => {
-
-          /*
-             Some browsers may block
-             programmatic audio playback.
-          */
-
-          lightboxVideo.muted =
-            true;
-
-
-          lightboxVideo
-            .play()
-            .catch(
-              () => { }
-            );
-
-        }
-      );
-
-  }
-
+  /* ---------------------------------------------
+     Mark card as active
+  --------------------------------------------- */
 
   if (card) {
 
@@ -1466,10 +1259,59 @@ function openReelLightbox(
       "is-audio-playing"
     );
 
+    card.classList.add(
+      "is-lightbox-open"
+    );
+
   }
 
-}
 
+  /* ---------------------------------------------
+     Open overlay
+  --------------------------------------------- */
+
+  videoLightbox.classList.add(
+    "active"
+  );
+
+  document.body.style.overflow =
+    "hidden";
+
+
+  /* ---------------------------------------------
+     Continue SAME video
+
+     It keeps its currentTime and buffer.
+  --------------------------------------------- */
+
+  const playPromise =
+    video.play();
+
+  if (
+    playPromise &&
+    typeof playPromise.catch ===
+    "function"
+  ) {
+
+    playPromise.catch(
+      () => {
+
+        /*
+          If browser blocks audio,
+          continue silently.
+        */
+
+        video.muted =
+          true;
+
+        video.play().catch(
+          () => { }
+        );
+
+      }
+    );
+  }
+}
 
 
 /* ============================================================
@@ -1484,7 +1326,6 @@ function getYoutubeEmbedUrl(
     return "";
   }
 
-
   if (
     url.includes(
       "youtube.com/embed/"
@@ -1496,13 +1337,11 @@ function getYoutubeEmbedUrl(
         ? "&"
         : "?";
 
-
     return (
       url +
       separator +
       "autoplay=1&rel=0"
     );
-
   }
 
 
@@ -1511,7 +1350,6 @@ function getYoutubeEmbedUrl(
       /youtu\.be\/([^?&/]+)/
     );
 
-
   if (shortMatch) {
 
     return (
@@ -1519,7 +1357,6 @@ function getYoutubeEmbedUrl(
       shortMatch[1] +
       "?autoplay=1&rel=0"
     );
-
   }
 
 
@@ -1528,7 +1365,6 @@ function getYoutubeEmbedUrl(
       /[?&]v=([^&]+)/
     );
 
-
   if (watchMatch) {
 
     return (
@@ -1536,14 +1372,11 @@ function getYoutubeEmbedUrl(
       watchMatch[1] +
       "?autoplay=1&rel=0"
     );
-
   }
 
 
   return url;
-
 }
-
 
 
 /* ============================================================
@@ -1559,39 +1392,37 @@ function openYoutubeLightbox(
   }
 
 
+  /* Stop reel previews */
+
   stopAllReelVideos();
 
+
+  /* Clean R2 lightbox video */
 
   if (lightboxVideo) {
 
     lightboxVideo.pause();
 
-
     lightboxVideo.removeAttribute(
       "src"
     );
 
-
-    lightboxVideo.load();
-
-
     lightboxVideo.style.display =
       "none";
-
   }
 
+
+  /* Load YouTube */
 
   if (lightboxYoutube) {
 
     lightboxYoutube.style.display =
       "block";
 
-
     lightboxYoutube.src =
       getYoutubeEmbedUrl(
         iframe.src
       );
-
   }
 
 
@@ -1599,91 +1430,193 @@ function openYoutubeLightbox(
     "active"
   );
 
-
   document.body.style.overflow =
     "hidden";
-
 }
-
 
 
 /* ============================================================
    CLOSE LIGHTBOX
+============================================================
+
+   For R2 reels:
+
+   The SAME video is returned to its
+   original card.
+
+   We do NOT reload it.
+
 ============================================================ */
 
 function closeVideoLightbox() {
 
-  if (lightboxVideo) {
 
-    lightboxVideo.pause();
+  /* ========================================================
+     CLOSE R2 REEL
+  ======================================================== */
+
+  if (activeLightboxVideo) {
+
+    const video =
+      activeLightboxVideo;
 
 
-    lightboxVideo.removeAttribute(
-      "src"
+    /* Pause only momentarily */
+
+    video.pause();
+
+
+    /* ---------------------------------------------
+       Return SAME VIDEO to original location
+    --------------------------------------------- */
+
+    if (
+      activeVideoPlaceholder &&
+      activeVideoPlaceholder.parentNode
+    ) {
+
+      activeVideoPlaceholder.parentNode.insertBefore(
+        video,
+        activeVideoPlaceholder
+      );
+
+      activeVideoPlaceholder.remove();
+
+    }
+
+
+    /* ---------------------------------------------
+       Restore preview settings
+    --------------------------------------------- */
+
+    video.controls =
+      activeVideoOriginalControls;
+
+    video.muted =
+      true;
+
+    video.defaultMuted =
+      true;
+
+    video.autoplay =
+      true;
+
+    video.playsInline =
+      true;
+
+    video.setAttribute(
+      "muted",
+      ""
     );
 
+    video.setAttribute(
+      "autoplay",
+      ""
+    );
 
-    lightboxVideo.load();
+    video.setAttribute(
+      "playsinline",
+      ""
+    );
+
+    video.style.display =
+      "";
 
 
-    lightboxVideo.style.display =
-      "none";
+    /* ---------------------------------------------
+       Restore card classes
+    --------------------------------------------- */
 
+    if (activeVideoCard) {
+
+      activeVideoCard.classList.remove(
+        "is-audio-playing"
+      );
+
+      activeVideoCard.classList.remove(
+        "is-lightbox-open"
+      );
+
+      activeVideoCard.classList.add(
+        "is-playing"
+      );
+
+    }
+
+
+    /* ---------------------------------------------
+       Resume SAME media element
+
+       No src.
+       No load.
+       No currentTime.
+    --------------------------------------------- */
+
+    video.play().catch(
+      () => { }
+    );
   }
 
+
+  /* ========================================================
+     CLOSE YOUTUBE
+  ======================================================== */
 
   if (lightboxYoutube) {
 
     lightboxYoutube.src =
       "";
 
-
     lightboxYoutube.style.display =
       "none";
-
   }
 
+
+  /* ========================================================
+     CLEAN DEDICATED LIGHTBOX VIDEO
+  ======================================================== */
+
+  if (lightboxVideo) {
+
+    lightboxVideo.pause();
+
+    lightboxVideo.removeAttribute(
+      "src"
+    );
+
+    lightboxVideo.style.display =
+      "none";
+  }
+
+
+  /* ========================================================
+     CLOSE OVERLAY
+  ======================================================== */
 
   videoLightbox.classList.remove(
     "active"
   );
 
-
   document.body.style.overflow =
     "";
 
 
-  reelCards.forEach(
-    card => {
-
-      card.classList.remove(
-        "is-audio-playing"
-      );
-
-
-      card.classList.remove(
-        "is-playing"
-      );
-
-    }
-  );
-
+  /* ========================================================
+     RESET STATE
+  ======================================================== */
 
   activeLightboxVideo =
     null;
 
+  activeVideoPlaceholder =
+    null;
 
-  setTimeout(
-    () => {
+  activeVideoCard =
+    null;
 
-      startAllReelAutoplay();
-
-    },
-    150
-  );
-
+  activeVideoOriginalControls =
+    false;
 }
-
 
 
 /* ============================================================
@@ -1698,17 +1631,13 @@ if (lightboxClose) {
 
       event.preventDefault();
 
-
       event.stopPropagation();
-
 
       closeVideoLightbox();
 
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -1732,9 +1661,7 @@ if (videoLightbox) {
 
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -1761,7 +1688,6 @@ document.addEventListener(
 );
 
 
-
 /* ============================================================
    REEL INTERACTION
 ============================================================ */
@@ -1774,18 +1700,15 @@ reelCards.forEach(
         "video"
       );
 
-
     const playButton =
       card.querySelector(
         ".reel-play"
       );
 
-
     const progress =
       card.querySelector(
         ".reel-progress span"
       );
-
 
     if (!video) {
       return;
@@ -1799,40 +1722,32 @@ reelCards.forEach(
     video.muted =
       true;
 
-
     video.defaultMuted =
       true;
-
 
     video.autoplay =
       true;
 
-
     video.loop =
       true;
 
-
     video.playsInline =
       true;
-
 
     video.setAttribute(
       "muted",
       ""
     );
 
-
     video.setAttribute(
       "autoplay",
       ""
     );
 
-
     video.setAttribute(
       "playsinline",
       ""
     );
-
 
 
     /* --------------------------------------------------------
@@ -1843,25 +1758,14 @@ reelCards.forEach(
       "mouseenter",
       () => {
 
-        /*
-           Don't interfere with a video
-           currently opened in the lightbox.
-        */
-
         if (
           card.classList.contains(
             "is-audio-playing"
           )
         ) {
-
           return;
-
         }
 
-
-        /*
-           Stop other preview videos.
-        */
 
         stopAllReelVideos(
           video
@@ -1871,15 +1775,13 @@ reelCards.forEach(
         video.muted =
           true;
 
-
         video.defaultMuted =
           true;
 
 
-        video.play()
-          .catch(
-            () => { }
-          );
+        video.play().catch(
+          () => { }
+        );
 
 
         card.classList.add(
@@ -1890,7 +1792,6 @@ reelCards.forEach(
     );
 
 
-
     /* --------------------------------------------------------
        HOVER OUT
     -------------------------------------------------------- */
@@ -1899,37 +1800,29 @@ reelCards.forEach(
       "mouseleave",
       () => {
 
-        /*
-           If opened manually,
-           leave it alone.
-        */
-
         if (
           card.classList.contains(
             "is-audio-playing"
           )
         ) {
-
           return;
-
         }
 
 
-        /*
-           Stop this preview.
-        */
-
         video.pause();
 
+
+        /*
+          Reset only when leaving the
+          preview card.
+        */
 
         try {
 
           video.currentTime =
             0;
 
-        }
-
-        catch (error) { }
+        } catch (error) { }
 
 
         card.classList.remove(
@@ -1938,8 +1831,7 @@ reelCards.forEach(
 
 
         /*
-           Resume all other
-           muted previews.
+          Resume other previews.
         */
 
         reelCards.forEach(
@@ -1948,9 +1840,7 @@ reelCards.forEach(
             if (
               otherCard === card
             ) {
-
               return;
-
             }
 
 
@@ -1959,9 +1849,7 @@ reelCards.forEach(
                 "is-audio-playing"
               )
             ) {
-
               return;
-
             }
 
 
@@ -1979,15 +1867,13 @@ reelCards.forEach(
             otherVideo.muted =
               true;
 
-
             otherVideo.defaultMuted =
               true;
 
 
-            otherVideo.play()
-              .catch(
-                () => { }
-              );
+            otherVideo.play().catch(
+              () => { }
+            );
 
 
             otherCard.classList.add(
@@ -2001,9 +1887,8 @@ reelCards.forEach(
     );
 
 
-
     /* --------------------------------------------------------
-       PLAY BUTTON → LARGE VIEW
+       PLAY BUTTON → LARGE VIDEO
     -------------------------------------------------------- */
 
     if (playButton) {
@@ -2013,7 +1898,6 @@ reelCards.forEach(
         event => {
 
           event.preventDefault();
-
 
           event.stopPropagation();
 
@@ -2025,9 +1909,7 @@ reelCards.forEach(
 
         }
       );
-
     }
-
 
 
     /* --------------------------------------------------------
@@ -2042,9 +1924,7 @@ reelCards.forEach(
           !progress ||
           !video.duration
         ) {
-
           return;
-
         }
 
 
@@ -2060,7 +1940,6 @@ reelCards.forEach(
 
       }
     );
-
 
 
     /* --------------------------------------------------------
@@ -2082,7 +1961,6 @@ reelCards.forEach(
 );
 
 
-
 /* ============================================================
    LONG-FORM YOUTUBE
 ============================================================ */
@@ -2095,31 +1973,26 @@ longformCards.forEach(
         "iframe"
       );
 
-
     const playButton =
       card.querySelector(
         ".longform-play"
       );
 
-
     if (
       !iframe ||
       !playButton
     ) {
-
       return;
-
     }
 
 
     /*
-       Prevent direct interaction with
-       the small iframe underneath.
+      Prevent direct interaction with
+      the small iframe underneath.
     */
 
     iframe.style.pointerEvents =
       "none";
-
 
 
     /* --------------------------------------------------------
@@ -2132,7 +2005,6 @@ longformCards.forEach(
 
         event.preventDefault();
 
-
         event.stopPropagation();
 
 
@@ -2144,7 +2016,6 @@ longformCards.forEach(
     );
 
 
-
     /* --------------------------------------------------------
        CLICK LONG-FORM MEDIA
     -------------------------------------------------------- */
@@ -2153,7 +2024,6 @@ longformCards.forEach(
       card.querySelector(
         ".longform-media"
       );
-
 
     if (media) {
 
@@ -2166,9 +2036,7 @@ longformCards.forEach(
               ".longform-play"
             )
           ) {
-
             return;
-
           }
 
 
@@ -2178,12 +2046,10 @@ longformCards.forEach(
 
         }
       );
-
     }
 
   }
 );
-
 
 
 /* ============================================================
@@ -2216,7 +2082,6 @@ allWorkVideos.forEach(
 );
 
 
-
 /* ============================================================
    INITIAL AUTOPLAY
 ============================================================ */
@@ -2231,7 +2096,6 @@ function initializeWorkVideos() {
           "video"
         );
 
-
       if (!video) {
         return;
       }
@@ -2240,14 +2104,11 @@ function initializeWorkVideos() {
       video.muted =
         true;
 
-
       video.defaultMuted =
         true;
 
-
       video.autoplay =
         true;
-
 
       video.playsInline =
         true;
@@ -2259,9 +2120,7 @@ function initializeWorkVideos() {
 
     }
   );
-
 }
-
 
 
 /* ============================================================
@@ -2285,7 +2144,6 @@ if (
 }
 
 
-
 /* ============================================================
    WINDOW LOAD
 ============================================================ */
@@ -2302,7 +2160,6 @@ window.addEventListener(
 );
 
 
-
 /* ============================================================
    VISIBILITY CHANGE
 ============================================================ */
@@ -2315,9 +2172,7 @@ document.addEventListener(
       document.visibilityState !==
       "visible"
     ) {
-
       return;
-
     }
 
 
@@ -2329,9 +2184,7 @@ document.addEventListener(
             "is-audio-playing"
           )
         ) {
-
           return;
-
         }
 
 
@@ -2349,22 +2202,19 @@ document.addEventListener(
         video.muted =
           true;
 
-
         video.defaultMuted =
           true;
 
 
-        video.play()
-          .catch(
-            () => { }
-          );
+        video.play().catch(
+          () => { }
+        );
 
       }
     );
 
   }
 );
-
 
 
 /* ============================================================
@@ -2382,9 +2232,7 @@ setTimeout(
             "is-audio-playing"
           )
         ) {
-
           return;
-
         }
 
 
@@ -2406,15 +2254,13 @@ setTimeout(
           video.muted =
             true;
 
-
           video.defaultMuted =
             true;
 
 
-          video.play()
-            .catch(
-              () => { }
-            );
+          video.play().catch(
+            () => { }
+          );
 
         }
 
