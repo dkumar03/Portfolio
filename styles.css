@@ -1283,39 +1283,39 @@ nav a.active:hover {
    MY STACK
 ============================================================ */
 
+/* ================================
+   STACK — FINAL CENTER FIX
+================================ */
+
 .stack-section {
-  position: relative;
   width: 100%;
   overflow: hidden;
-  text-align: center;
-  padding-bottom: 10rem;
 }
 
-
-.stack-heading {
+.stack-section .stack-heading {
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 4rem;
+  text-align: center;
 }
 
-
-.stack-wrapper {
+.stack-section .stack-wrapper {
   position: relative;
-  width: min(100%, 1000px);
-  margin-inline: auto;
-  padding: 0 1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
 }
 
+.stack-section .stack-grid {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 
-.stack-grid {
-  position: relative;
-  z-index: 2;
   display: grid;
-  grid-template-columns:
-    repeat(3, 1fr);
-
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.1rem;
 }
 
@@ -3334,9 +3334,7 @@ footer a:hover::after {
     min-height: 100svh;
 
     padding:
-      clamp(6.5rem, 16vw, 8rem)
-      clamp(1rem, 5vw, 1.5rem)
-      clamp(3rem, 8vw, 5rem);
+      clamp(6.5rem, 16vw, 8rem) clamp(1rem, 5vw, 1.5rem) clamp(3rem, 8vw, 5rem);
 
     overflow: hidden;
   }
@@ -3411,8 +3409,7 @@ footer a:hover::after {
     max-width: 270px;
 
     transform:
-      perspective(800px)
-      rotateY(7deg);
+      perspective(800px) rotateY(7deg);
   }
 
   .portrait-img {
@@ -3586,8 +3583,7 @@ footer a:hover::after {
       clamp(100px, 27vw, 130px);
 
     padding:
-      clamp(.8rem, 4vw, 1.2rem)
-      .5rem;
+      clamp(.8rem, 4vw, 1.2rem) .5rem;
 
     border-radius:
       clamp(14px, 4vw, 20px);
@@ -3643,8 +3639,7 @@ footer a:hover::after {
     max-width: 100%;
 
     margin:
-      0 auto
-      clamp(2.5rem, 8vw, 4rem);
+      0 auto clamp(2.5rem, 8vw, 4rem);
   }
 
   .work-category {
@@ -3652,8 +3647,7 @@ footer a:hover::after {
     max-width: 1100px;
 
     margin:
-      0 auto
-      clamp(4rem, 12vw, 7rem);
+      0 auto clamp(4rem, 12vw, 7rem);
   }
 
 
@@ -3958,8 +3952,7 @@ footer a:hover::after {
     width: 100%;
 
     padding:
-      1.5rem
-      clamp(1rem, 5vw, 1.5rem);
+      1.5rem clamp(1rem, 5vw, 1.5rem);
 
     gap: .75rem;
 
